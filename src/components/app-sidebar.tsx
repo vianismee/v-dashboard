@@ -8,8 +8,8 @@ import {
   Inbox,
   MessageCircleQuestion,
   Settings2,
-  Sparkles,
   Trash2,
+  TypeOutline,
 } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
@@ -25,21 +25,20 @@ import { NavUser } from "./nav-user";
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "chevianbs@gmail.com",
+    name: "Vian",
+    jabatan: "Designer",
     avatar: "ss",
   },
   navMain: [
     {
       title: "Dashboard",
       url: "/dashboard",
-      icon: Sparkles,
+      icon: Home,
     },
     {
-      title: "Home",
-      url: "#",
-      icon: Home,
-      isActive: true,
+      title: "Text Generator",
+      url: "/generator",
+      icon: TypeOutline,
     },
     {
       title: "Inbox",
@@ -80,11 +79,12 @@ const data = {
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   return (
     <Sidebar className="border-r-0" {...props}>
-      <SidebarHeader>
+      <SidebarHeader className="py-5 flex items-center justify-center">
         <div>Kitoshindo</div>
-        <NavMain items={data.navMain} />
       </SidebarHeader>
-      <SidebarContent></SidebarContent>
+      <SidebarContent className="mt-6">
+        <NavMain items={data.navMain} />
+      </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
         <NavUser user={data.user}></NavUser>
