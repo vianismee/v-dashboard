@@ -1,3 +1,7 @@
-export default function Page() {
-  return <main>Text Generator</main>;
+export default function GeneratorPage() {
+  return (
+    <section>
+      <main>Text Generator</main>
+    </section>
+  );
 }

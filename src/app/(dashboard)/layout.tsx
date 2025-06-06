@@ -47,13 +47,13 @@ export default function RootLayout({
                     orientation="vertical"
                     className="mr-2 data-[orientation=vertical]:h-4"
                   />
-                  DESIGN DASHBOARD V2
+                  Hallo, chevianbs@gmail.com
                 </div>
               </header>
               <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-                <div className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-min">
+                <main className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-min">
                   {children}
-                </div>
+                </main>
               </div>
             </SidebarInset>
           </SidebarProvider>

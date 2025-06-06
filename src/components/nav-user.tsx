@@ -32,7 +32,7 @@ export function NavUser({
   user: {
     name: string;
     jabatan: string;
-    avatar: string;
+    avatar?: string;
   };
 }) {
   const { isMobile } = useSidebar();

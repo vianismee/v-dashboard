@@ -5,7 +5,7 @@ import {
   Blocks,
   Calendar,
   Home,
-  Inbox,
+  NotebookPen,
   MessageCircleQuestion,
   Settings2,
   Trash2,
@@ -27,7 +27,6 @@ const data = {
   user: {
     name: "Vian",
     jabatan: "Designer",
-    avatar: "ss",
   },
   navMain: [
     {
@@ -41,10 +40,14 @@ const data = {
       icon: TypeOutline,
     },
     {
-      title: "Inbox",
-      url: "#",
-      icon: Inbox,
-      badge: "10",
+      title: "Converter",
+      url: "/converter",
+      icon: NotebookPen,
+    },
+    {
+      title: "Note",
+      url: "/note",
+      icon: NotebookPen,
     },
   ],
   navSecondary: [
