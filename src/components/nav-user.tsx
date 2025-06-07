@@ -25,6 +25,9 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import { signOut } from "@/app/login/actions";
+import { useEffect } from "react";
+import supabase from "../../supabase/supabase";
 
 export function NavUser({
   user,
@@ -98,7 +101,7 @@ export function NavUser({
               </DropdownMenuItem>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={signOut}>
               <LogOut />
               Log out
             </DropdownMenuItem>

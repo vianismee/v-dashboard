@@ -8,7 +8,6 @@ import {
   SidebarMenuItem,
 } from "@/components/ui/sidebar";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
 
 export function NavMain({
   items,
