@@ -26,8 +26,8 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import { signOut } from "@/app/login/actions";
-import { useEffect } from "react";
-import supabase from "../../supabase/supabase";
+import { useEffect, useState } from "react";
+import { createClient } from "../../supabase/client";
 
 export function NavUser({
   user,
@@ -39,7 +39,19 @@ export function NavUser({
   };
 }) {
   const { isMobile } = useSidebar();
+  const [isUser, setIsUser] = useState<string>();
 
+  useEffect(() => {
+    const getUser = async () => {
+      const supabase = await createClient();
+      const { data, error } = await supabase.auth.getUser();
+      if (error) {
+        console.log(error);
+      }
+      setIsUser(data.user?.id);
+    };
+    getUser();
+  });
   return (
     <SidebarMenu>
       <SidebarMenuItem>
@@ -56,6 +68,7 @@ export function NavUser({
               <div className="grid flex-1 text-left text-sm leading-tight">
                 <span className="truncate font-medium">{user.name}</span>
                 <span className="truncate text-xs">{user.jabatan}</span>
+                <span className="truncate text-xs">{isUser}</span>
               </div>
               <ChevronsUpDown className="ml-auto size-4" />
             </SidebarMenuButton>
