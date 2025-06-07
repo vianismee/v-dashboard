@@ -1,18 +1,23 @@
-import { createClient } from "../../../../supabase/server";
+"use client";
 
-export default async function ProfilePage() {
-  const supabase = await createClient();
-  const { data } = await supabase.auth.getUser();
+import { useEffect, useState } from "react";
+import { createClient } from "../../../../supabase/client";
 
-  const { data: profile } = await supabase
-    .from("profile")
-    .select("*")
-    .match({ uuid: data.user?.id })
-    .single();
-
+export default function ProfilePage() {
+  const [userId, setUserId] = useState<string>();
+  useEffect(() => {
+    const getUserId = async () => {
+      const supabase = await createClient();
+      const { data } = await supabase.auth.getUser();
+      setUserId(data.user?.id);
+    };
+    getUserId();
+  });
   return (
     <main className="px-5 py-5">
-      <div></div>
+      <div>
+        <pre>{JSON.stringify(userId)}</pre>
+      </div>
     </main>
   );
 }
