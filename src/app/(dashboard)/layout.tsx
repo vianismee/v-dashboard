@@ -42,7 +42,7 @@ export default function RootLayout({
                 orientation="vertical"
                 className="mr-2 data-[orientation=vertical]:h-4"
               />
-              Hallo, chevianbs@gmail.com
+              DESIGN DASHBOARD V2
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">

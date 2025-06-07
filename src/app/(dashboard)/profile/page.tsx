@@ -1,22 +1,19 @@
+// page.tsx
 "use client";
-
-import { useEffect, useState } from "react";
-import { createClient } from "../../../../supabase/client";
+import { useFetchUser } from "@/api/useFetchUser";
+import UserProfile from "@/components/profile";
 
 export default function ProfilePage() {
-  const [userId, setUserId] = useState<string>();
-  useEffect(() => {
-    const getUserId = async () => {
-      const supabase = await createClient();
-      const { data } = await supabase.auth.getUser();
-      setUserId(data.user?.id);
-    };
-    getUserId();
-  });
+  const { userProfile } = useFetchUser(); // userProfile is IUserProfile[]
+
   return (
     <main className="px-5 py-5">
-      <div>
-        <pre>{JSON.stringify(userId)}</pre>
+      <div className="w-full h-full">
+        {userProfile && userProfile.length > 0 ? (
+          <UserProfile profile={userProfile[0]} />
+        ) : (
+          <p>Select a profile to display details.</p>
+        )}
       </div>
     </main>
   );

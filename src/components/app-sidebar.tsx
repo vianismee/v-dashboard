@@ -21,6 +21,7 @@ import {
   SidebarRail,
 } from "@/components/ui/sidebar";
 import { NavUser } from "./nav-user";
+import { useFetchUser } from "@/api/useFetchUser";
 
 // This is sample data.
 const data = {
@@ -80,6 +81,8 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { userProfile } = useFetchUser();
+
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader className="py-5 flex items-center justify-center">
@@ -90,7 +93,11 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
-        <NavUser user={data.user}></NavUser>
+        {userProfile && userProfile.length > 0 ? (
+          <NavUser user={userProfile[0]}></NavUser>
+        ) : (
+          <p>Select a profile to display details.</p>
+        )}
       </SidebarFooter>
     </Sidebar>
   );
