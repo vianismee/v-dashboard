@@ -44,10 +44,7 @@ const AddNote: React.FC<AddNoteProps> = ({ user }) => {
 
     try {
       // Insert data and get the response
-      const { data, error } = await supabase
-        .from("note")
-        .insert(noteData)
-        .select();
+      const { error } = await supabase.from("note").insert(noteData).select();
 
       if (error) {
         console.log(error);

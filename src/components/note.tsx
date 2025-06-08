@@ -15,7 +15,6 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
-import AddNote from "./add-note";
 
 interface NoteAppProps {
   userNote: INote[];
