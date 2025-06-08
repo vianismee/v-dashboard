@@ -15,6 +15,7 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "./ui/sheet";
+import AddNote from "./add-note";
 
 interface NoteAppProps {
   userNote: INote[];
@@ -31,11 +32,11 @@ const formatDate = (dateStr: string) => {
 
 const NoteApp: React.FC<NoteAppProps> = ({ userNote }) => {
   return (
-    <main className="w-full auto-rows-min grid md:grid-cols-[repeat(3,1fr)] gap-5">
+    <main className="w-full auto-rows-min grid md:grid-cols-[repeat(3,1fr)] gap-2">
       {userNote.map((note) => (
         <Sheet key={note.note_id}>
           <SheetTrigger asChild>
-            <Card className="aspect-square rounded-2xl border-2 border-card-muted">
+            <Card className="aspect-square rounded-2xl border-2 border-card-muted cursor-pointer">
               <CardHeader>
                 <CardTitle className="text-xl">{note.title}</CardTitle>
               </CardHeader>

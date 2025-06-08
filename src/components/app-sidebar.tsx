@@ -6,6 +6,7 @@ import {
   Calendar,
   Home,
   NotebookPen,
+  Weight,
   MessageCircleQuestion,
   Settings2,
   Trash2,
@@ -43,7 +44,7 @@ const data = {
     {
       title: "Converter",
       url: "/converter",
-      icon: NotebookPen,
+      icon: Weight,
     },
     {
       title: "Note",
