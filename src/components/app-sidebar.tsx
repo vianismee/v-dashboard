@@ -96,7 +96,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {userProfile && userProfile.length > 0 ? (
           <NavUser user={userProfile[0]}></NavUser>
         ) : (
-          <p>Select a profile to display details.</p>
+          <p>Loading User</p>
         )}
       </SidebarFooter>
     </Sidebar>

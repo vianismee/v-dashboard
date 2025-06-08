@@ -1,5 +1,3 @@
-
-
 export type IUserProfile = {
     user_id: number;
     nama: string;
