@@ -6,11 +6,7 @@ const nextConfig: NextConfig = {
 
 module.exports = {
   images: {
-    remotePatterns: [{
-      protocol: 'https',
-      hostname: 'pixels.com'
-
-    }]
+    remotePatterns: [new URL('https://images.pexels.com/photos/**')]
   }
 }
 
