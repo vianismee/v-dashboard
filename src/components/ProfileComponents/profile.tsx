@@ -8,11 +8,11 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-} from "./ui/card";
+} from "../ui/card";
 import { UserPen } from "lucide-react";
-import { Separator } from "./ui/separator";
+import { Separator } from "../ui/separator";
 import { Label } from "@/components/ui/label";
-import { Input } from "./ui/input";
+import { Input } from "../ui/input";
 
 interface UserProfileProps {
   profile: IUserProfile;

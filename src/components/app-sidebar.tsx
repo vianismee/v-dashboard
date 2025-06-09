@@ -13,7 +13,6 @@ import {
   TypeOutline,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
 import {
   Sidebar,
   SidebarContent,
@@ -21,8 +20,9 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { NavUser } from "./nav-user";
 import { useFetchUser } from "@/api/useFetchUser";
+import { NavUser } from "./nav-user";
+import { NavMain } from "./nav-main";
 
 // This is sample data.
 const data = {

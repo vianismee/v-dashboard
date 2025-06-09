@@ -1,7 +1,7 @@
 // page.tsx
 "use client";
 import { useFetchUser } from "@/api/useFetchUser";
-import UserProfile from "@/components/profile";
+import UserProfile from "@/components/ProfileComponents/profile";
 
 export default function ProfilePage() {
   const { userProfile } = useFetchUser(); // userProfile is IUserProfile[]

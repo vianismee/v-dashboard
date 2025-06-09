@@ -8,14 +8,14 @@ import {
   DialogFooter,
   DialogTitle,
   DialogTrigger,
-} from "./ui/dialog";
+} from "../ui/dialog";
 import { SquarePen } from "lucide-react";
-import { Separator } from "./ui/separator";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
-import { Button } from "./ui/button";
-import { createClient } from "../../supabase/client";
+import { Separator } from "../ui/separator";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
+import { Textarea } from "../ui/textarea";
+import { Button } from "../ui/button";
+import { createClient } from "../../../supabase/client";
 import { IUserProfile } from "@/types/profile";
 import { useRouter } from "next/navigation";
 
@@ -51,7 +51,7 @@ const AddNote: React.FC<AddNoteProps> = ({ user }) => {
         return;
       }
       setDialogOpen(false);
-      router.push("/note");
+      window.location.reload();
     } catch (error) {
       console.error("An unexpected error occurred:", error);
     }
@@ -66,19 +66,19 @@ const AddNote: React.FC<AddNoteProps> = ({ user }) => {
             Add Note
           </Button>
         </DialogTrigger>
-        <DialogContent>
-          <form className="w-full" onSubmit={handleAddNote}>
-            <DialogTitle asChild>
-              <h1 className="inline-flex items-center gap-2">
-                <SquarePen />
-                <Separator
-                  orientation="vertical"
-                  className="data-[orientation=vertical]:h-6 data-[orientation=vertical]:w-[3px]"
-                />
-                TULIS NOTE
-              </h1>
-            </DialogTitle>
-            <Separator />
+        <DialogContent className="">
+          <DialogTitle asChild>
+            <h1 className="inline-flex items-center gap-2">
+              <SquarePen />
+              <Separator
+                orientation="vertical"
+                className="data-[orientation=vertical]:h-6 data-[orientation=vertical]:w-[3px]"
+              />
+              TULIS NOTE
+            </h1>
+          </DialogTitle>
+          <Separator />
+          <form className="w-full gap-5 flex flex-col" onSubmit={handleAddNote}>
             <div className="grid gap-4">
               <div className="grid gap-3">
                 <Label htmlFor="title">Tittle</Label>

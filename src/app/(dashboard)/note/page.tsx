@@ -3,19 +3,23 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { NotebookPen } from "lucide-react";
-import NoteApp from "@/components/note";
-import AddNote from "@/components/add-note";
+import NoteApp from "@/components/NoteComponent/note";
+import AddNote from "@/components/NoteComponent/add-note";
 import { useFetchUser } from "@/api/useFetchUser";
 import { useFetchNotes } from "@/api/useFetchNotes";
+import { Button } from "@/components/ui/button";
 
 export default function NotePage() {
+  const handleRefresh = () => {
+    window.location.reload();
+  };
   const { notes } = useFetchNotes();
   const { userProfile } = useFetchUser();
   return (
-    <section className="px-5 py-5 flex flex-col gap-5 h-min">
+    <section className="px-5 py-5 flex flex-col gap-5">
       <Card className="w-full flex justify-center">
         <CardHeader>
-          <CardTitle className="flex items-center text-2xl gap-5 justify-between">
+          <CardTitle className="flex-cols md:flex items-center text-2xl gap-5 justify-between">
             <div className="inline-flex gap-3 items-center">
               <NotebookPen height={45} width={45} />
               <Separator
@@ -24,13 +28,16 @@ export default function NotePage() {
               />
               <h1>Notes</h1>
             </div>
-            <AddNote user={userProfile} />
+            <div className="inline-flex gap-3">
+              <AddNote user={userProfile} />
+              <Button onClick={handleRefresh}>Refresh</Button>
+            </div>
           </CardTitle>
         </CardHeader>
       </Card>
       <div className="w-full h-full">
         {notes && notes.length > 0 ? (
-          <NoteApp userNote={notes} />
+          <NoteApp userNote={notes} setUserNote={() => {}} />
         ) : (
           <p>Select a profile to display details.</p>
         )}

@@ -24,9 +24,9 @@ export const useFetchUser = () => {
 
       const supabase = await createClient();
       const { data, error } = await supabase
-        .from("profile")
+        .from("users")
         .select("user_id, nama, email, role")
-        .eq("uuid", userId);
+        .eq("id", userId);
 
       if (error) {
         console.error("Error fetching user profile:", error);

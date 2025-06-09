@@ -3,36 +3,44 @@ import { useFetchUser } from "./useFetchUser";
 import { createClient } from "../../supabase/client";
 import { INote } from "@/types/note";
 
-
 export const useFetchNotes = () => {
-    const [notes, setNotes] = useState<INote[]>([]);
-    const { userProfile } = useFetchUser();
+  const [notes, setNotes] = useState<INote[]>([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true); // Mengatur isLoading
+  const { userProfile } = useFetchUser();
 
   useEffect(() => {
-    if (userProfile && userProfile.length > 0) {
-      const user_id = userProfile[0].user_id;
-      const fetchNotes = async () => {
+    const fetchNotes = async () => {
+      // Pastikan hanya melakukan fetch jika userProfile ada
+      if (userProfile && userProfile.length > 0) {
+        const user_id = userProfile[0].user_id;
+        setIsLoading(true); // Mulai memuat data
         const supabase = await createClient();
         const { data, error: notesError } = await supabase
           .from("note")
-          .select("user_id, note_id, title, desc, status, created_at")
-          .eq("user_id", user_id);
+          .select("user_id, note_id, title, desc, created_at")
+          .eq("user_id", user_id)
+          .order("created_at");
+
         if (notesError) {
           console.log(notesError);
-          return;
         }
+
         if (data) {
-          console.log(data);
-          setNotes(data as INote[]);
+          setNotes(data as INote[]); // Menyimpan data
         } else {
-          setNotes([]);
+          setNotes([]); // Jika tidak ada data
         }
-      };
-      fetchNotes();
-    }
-  }, [userProfile]);
+        setIsLoading(false); // Setelah selesai fetching data
+      } else {
+        setIsLoading(false); // Jika userProfile kosong
+      }
+    };
+
+    fetchNotes();
+  }, [userProfile]); // Menjalankan kembali ketika userProfile berubah
 
   return {
-    useFetchNotes, notes
-  }
-}
+    isLoading, // Mengembalikan status loading
+    notes,
+  };
+};
