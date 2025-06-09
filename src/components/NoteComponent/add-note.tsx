@@ -17,7 +17,6 @@ import { Textarea } from "../ui/textarea";
 import { Button } from "../ui/button";
 import { createClient } from "../../../supabase/client";
 import { IUserProfile } from "@/types/profile";
-import { useRouter } from "next/navigation";
 
 interface AddNoteProps {
   user: IUserProfile[]; // array of user profiles
@@ -27,7 +26,6 @@ const AddNote: React.FC<AddNoteProps> = ({ user }) => {
   const [dialogOpen, setDialogOpen] = useState(false);
 
   const userId = user.length > 0 ? user[0].user_id : null; // Menadpatkan data userId dari fetchUser
-  const router = useRouter();
 
   const handleAddNote = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

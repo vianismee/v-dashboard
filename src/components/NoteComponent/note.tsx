@@ -58,7 +58,7 @@ const handleDelete = async (
   setUserNote: React.Dispatch<React.SetStateAction<INote[]>>
 ) => {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("note") // Ganti dengan nama tabel yang sesuai
     .delete()
     .eq("note_id", note_id); // Filter berdasarkan id catatan
@@ -80,7 +80,7 @@ const handleUpdate = async (
   setUserNote: React.Dispatch<React.SetStateAction<INote[]>>
 ) => {
   const supabase = await createClient();
-  const { data, error } = await supabase
+  const { error } = await supabase
     .from("note")
     .update({ title, desc }) // Update title dan desc
     .eq("note_id", note_id); // Filter berdasarkan id catatan
@@ -118,6 +118,7 @@ const NoteApp: React.FC<NoteAppProps> = ({ userNote, setUserNote }) => {
     handleUpdate(note_id, updatedTitle, updatedDesc, setUserNote);
   };
 
+  console.log(editableNote);
   return (
     <main className="w-full grid-rows-[1fr] auto-rows-[1fr] grid md:grid-cols-[repeat(3,1fr)] gap-2">
       {sortedNotes.map((note) => (
