@@ -1,11 +1,5 @@
 import { IInfo } from "@/types/information";
-import {
-  Card,
-  CardHeader,
-  CardTitle,
-  CardContent,
-  CardFooter,
-} from "../ui/card";
+import { Card, CardHeader, CardTitle, CardContent } from "../ui/card";
 import { Separator } from "@/components/ui/separator";
 import {
   Sheet,
