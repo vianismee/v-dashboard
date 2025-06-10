@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   Blocks,
+  Bell,
   Calendar,
   Home,
   NotebookPen,
@@ -45,6 +46,11 @@ const data = {
       title: "Converter",
       url: "/converter",
       icon: Weight,
+    },
+    {
+      title: "Information",
+      url: "/information",
+      icon: Bell,
     },
     {
       title: "Note",
