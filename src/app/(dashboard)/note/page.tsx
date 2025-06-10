@@ -3,8 +3,8 @@
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { NotebookPen } from "lucide-react";
-import NoteApp from "@/components/NoteComponent/note";
-import AddNote from "@/components/NoteComponent/add-note";
+import NoteApp from "@/components/Note/note";
+import AddNote from "@/components/Note/add-note";
 import { useFetchUser } from "@/api/useFetchUser";
 import { useFetchNotes } from "@/api/useFetchNotes";
 import { Button } from "@/components/ui/button";
