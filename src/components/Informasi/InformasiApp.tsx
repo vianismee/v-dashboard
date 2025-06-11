@@ -12,15 +12,38 @@ import {
 } from "../ui/sheet";
 import { Button } from "../ui/button";
 import formatDate from "@/lib/date";
+import { createClient } from "../../../supabase/client";
 
 interface InformationAppProps {
   Information: IInfo[];
+  setUserInfo: React.Dispatch<React.SetStateAction<IInfo[]>>;
 }
 
+const sortInfo = (info: IInfo[]) => {
+  return info.sort(
+    (a, b) =>
+      new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+};
+
 const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
+  // Handle delete Info
+  const handleDeleteInfo = async (infoId: number) => {
+    const supabase = await createClient();
+    const { error: InfoError } = await supabase
+      .from("information")
+      .delete()
+      .eq("id", infoId);
+    if (InfoError) {
+      console.log(InfoError);
+    }
+    window.location.reload();
+  };
+
+  const sortedInfo = sortInfo(Information);
   return (
     <main className="w-full grid-rows-[1fr] auto-rows-[1fr] grid md:grid-cols-[repeat(3,1fr)] gap-2">
-      {Information.map((info) => (
+      {sortedInfo.map((info) => (
         <Sheet key={info.id}>
           <SheetTrigger asChild className="cursor-pointer">
             <Card>
@@ -62,9 +85,9 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
                     orientation="vertical"
                     className="data-[orientation=vertical]:h-[20px] data-[orientation=vertical]:w-[2px]"
                   />
-                  <p className="text-foreground/50 text-[13pt]">
+                  <h1 className="text-foreground/50 text-[13pt]">
                     {formatDate(info.created_at)}
-                  </p>
+                  </h1>
                 </div>
               </SheetDescription>
             </SheetHeader>
@@ -76,7 +99,13 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
             </div>
             <SheetFooter>
               <Button>Edit</Button>
-              <Button variant="outline">Delete</Button>
+              <Button
+                variant="outline"
+                className="cursor-pointer"
+                onClick={() => handleDeleteInfo(info.id)}
+              >
+                Delete
+              </Button>
             </SheetFooter>
           </SheetContent>
         </Sheet>

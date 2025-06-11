@@ -26,7 +26,7 @@ export default function InformationPage() {
           </CardTitle>
         </CardHeader>
       </Card>
-      <InformationApp Information={isInfoData} />
+      <InformationApp Information={isInfoData} setUserInfo={() => {}} />
     </section>
   );
 }

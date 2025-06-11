@@ -75,10 +75,12 @@ export function NavUser({ user }: NavUserProps) {
                   Account Setting
                 </DropdownMenuItem>
               </Link>
-              <DropdownMenuItem>
-                <Sparkles />
-                App Version
-              </DropdownMenuItem>
+              <Link href={"/version"}>
+                <DropdownMenuItem className="cursor-pointer">
+                  <Sparkles />
+                  App Version
+                </DropdownMenuItem>
+              </Link>
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={signOut}>
