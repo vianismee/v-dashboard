@@ -77,18 +77,7 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
               <SheetTitle className="text-2xl mb-2">{info.title}</SheetTitle>
               <Separator />
               <SheetDescription className="mt-2">
-                <div className="inline-flex w-full gap-4">
-                  <h1 className="text-foreground/50 text-[13pt]">
-                    {info.username}
-                  </h1>
-                  <Separator
-                    orientation="vertical"
-                    className="data-[orientation=vertical]:h-[20px] data-[orientation=vertical]:w-[2px]"
-                  />
-                  <h1 className="text-foreground/50 text-[13pt]">
-                    {formatDate(info.created_at)}
-                  </h1>
-                </div>
+                {info.username} | {formatDate(info.created_at)}
               </SheetDescription>
             </SheetHeader>
             <Separator />
