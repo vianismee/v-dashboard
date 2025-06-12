@@ -25,7 +25,7 @@ export const useFetchUser = () => {
       const supabase = await createClient();
       const { data, error } = await supabase
         .from("users")
-        .select("user_id, nama, email, role")
+        .select("user_id, nama, email, role, username, id")
         .eq("id", userId);
 
       if (error) {

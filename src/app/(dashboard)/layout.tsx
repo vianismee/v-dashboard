@@ -35,7 +35,7 @@ export default function RootLayout({
             </div>
           </header>
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-            <main className="bg-muted min-h-[100vh] flex-1 rounded-xl md:min-h-min">
+            <main className="bg-primery-foreground min-h-[100vh] flex-1 rounded-xl md:min-h-min">
               {children}
             </main>
           </div>

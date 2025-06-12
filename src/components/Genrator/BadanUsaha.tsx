@@ -140,7 +140,9 @@ export default function BadanUsaha() {
             />
             <Label
               className={`${
-                isMinimalis ? "text-white fon-bold" : "text-white/50"
+                isMinimalis
+                  ? "dark:text-white fon-bold text-black"
+                  : "text-black/50 dark:text-white/50"
               }`}
             >
               Minimalis
