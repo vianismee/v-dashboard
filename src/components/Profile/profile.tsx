@@ -50,14 +50,14 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
     const supabase = await createClient();
 
     try {
-      const { data, error } = await supabase
+      const { error } = await supabase
         .from("users")
         .update(updateFields)
         .eq("id", profile.id);
       if (error) {
         console.log(error);
       }
-      console.log(data);
+      window.location.reload();
     } catch (error) {
       console.log(error);
     }

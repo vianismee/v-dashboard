@@ -120,7 +120,7 @@ const NoteApp: React.FC<NoteAppProps> = ({ userNote, setUserNote }) => {
                 <CardTitle className="text-xl">{note.title}</CardTitle>
               </CardHeader>
               <Separator />
-              <CardContent className="md:h-[200px]">
+              <CardContent className="md:h-[240px]">
                 <p className="whitespace-pre-line line-clamp-10">{note.desc}</p>
               </CardContent>
               <Separator />
@@ -138,7 +138,7 @@ const NoteApp: React.FC<NoteAppProps> = ({ userNote, setUserNote }) => {
             </SheetHeader>
             <Separator />
             <div className="p-5 h-[80%]">
-              <Card className="h-[100%] overflow-scroll">
+              <Card className="h-[600px] max-h-[100%] overflow-scroll">
                 <CardContent>
                   <p className="whitespace-pre-line">{note.desc}</p>
                 </CardContent>

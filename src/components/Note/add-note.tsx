@@ -100,9 +100,13 @@ const AddNote: React.FC<AddNoteProps> = ({ user }) => {
             </div>
             <DialogFooter>
               <DialogClose asChild>
-                <Button variant="outline">Cancel</Button>
+                <Button variant="outline" className="cursor-pointer">
+                  Cancel
+                </Button>
               </DialogClose>
-              <Button type="submit">Add Note</Button>
+              <Button type="submit" className="cursor-pointer">
+                Add Note
+              </Button>
             </DialogFooter>
           </form>
         </DialogContent>
