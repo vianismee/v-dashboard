@@ -1,10 +1,11 @@
+import { ConverterApp } from "@/components/Converter/converter";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Weight } from "lucide-react";
 
 export default function Converter() {
   return (
-    <section className="px-5 py-5 flex flex-col gap-5">
+    <section className="px-5 py-5 flex flex-col gap-5 w-full h-screen">
       <Card className="w-full flex justify-center">
         <CardHeader>
           <CardTitle className="flex items-center text-2xl gap-5 justify-between">
@@ -19,6 +20,9 @@ export default function Converter() {
           </CardTitle>
         </CardHeader>
       </Card>
+      <div className="w-full h-full justify-center items-center flex">
+        <ConverterApp />
+      </div>
     </section>
   );
 }

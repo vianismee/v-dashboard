@@ -3,6 +3,7 @@
 import * as React from "react";
 import {
   Blocks,
+  Bell,
   Calendar,
   Home,
   NotebookPen,
@@ -23,6 +24,17 @@ import {
 import { useFetchUser } from "@/api/useFetchUser";
 import { NavUser } from "./nav-user";
 import { NavMain } from "./nav-main";
+
+import { Moon, Sun } from "lucide-react";
+import { useTheme } from "next-themes";
+
+import { Button } from "@/components/ui/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 // This is sample data.
 const data = {
@@ -45,6 +57,11 @@ const data = {
       title: "Converter",
       url: "/converter",
       icon: Weight,
+    },
+    {
+      title: "Information",
+      url: "/information",
+      icon: Bell,
     },
     {
       title: "Note",
@@ -83,6 +100,7 @@ const data = {
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const { userProfile } = useFetchUser();
+  const { setTheme } = useTheme();
 
   return (
     <Sidebar className="border-r-0" {...props}>
@@ -94,6 +112,26 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       </SidebarContent>
       <SidebarRail />
       <SidebarFooter>
+        <DropdownMenu>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" size="icon">
+              <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuContent align="end">
+            <DropdownMenuItem onClick={() => setTheme("light")}>
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("dark")}>
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem onClick={() => setTheme("system")}>
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         {userProfile && userProfile.length > 0 ? (
           <NavUser user={userProfile[0]}></NavUser>
         ) : (
