@@ -16,6 +16,7 @@ import { Label } from "@/components/ui/label";
 import { Input } from "../ui/input";
 import { createClient } from "../../../supabase/client";
 import { Button } from "../ui/button";
+import ChangePassword from "./ChangePassword";
 
 interface UserProfileProps {
   profile: IUserProfile;
@@ -115,10 +116,18 @@ const UserProfile: React.FC<UserProfileProps> = ({ profile }) => {
             />
           </div>
         </CardContent>
-        <CardFooter>
-          <Button type="submit">Save</Button>
+        <CardFooter className="inline-flex items-center gap-4">
+          <Button type="submit" variant="outline" className="cursor-pointer">
+            Update
+          </Button>
         </CardFooter>
       </form>
+      <Separator />
+      <div className="flex gap-5">
+        <CardContent className="flex gap-5">
+          <ChangePassword />
+        </CardContent>
+      </div>
     </Card>
   );
 };

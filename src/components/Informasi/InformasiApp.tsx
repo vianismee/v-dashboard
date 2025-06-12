@@ -17,6 +17,7 @@ import { createClient } from "../../../supabase/client";
 interface InformationAppProps {
   Information: IInfo[];
   setUserInfo: React.Dispatch<React.SetStateAction<IInfo[]>>;
+  userId: number[];
 }
 
 const sortInfo = (info: IInfo[]) => {
@@ -26,8 +27,10 @@ const sortInfo = (info: IInfo[]) => {
   );
 };
 
-const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
-  // Handle delete Info
+const InformationApp: React.FC<InformationAppProps> = ({
+  Information,
+  userId,
+}) => {
   const handleDeleteInfo = async (infoId: number) => {
     const supabase = await createClient();
     const { error: InfoError } = await supabase
@@ -39,6 +42,8 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
     }
     window.location.reload();
   };
+
+  console.log(userId);
 
   const sortedInfo = sortInfo(Information);
   return (
@@ -87,14 +92,18 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
               </Card>
             </div>
             <SheetFooter>
-              <Button>Edit</Button>
-              <Button
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => handleDeleteInfo(info.id)}
-              >
-                Delete
-              </Button>
+              {userId.includes(info.user_id) && (
+                <>
+                  <Button>Edit</Button>
+                  <Button
+                    variant="outline"
+                    className="cursor-pointer"
+                    onClick={() => handleDeleteInfo(info.id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
             </SheetFooter>
           </SheetContent>
         </Sheet>

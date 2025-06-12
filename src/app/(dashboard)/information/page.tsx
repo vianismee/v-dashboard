@@ -5,10 +5,19 @@ import InformationApp from "@/components/Informasi/InformasiApp";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Bell } from "lucide-react";
+import { useFetchUser } from "@/api/useFetchUser";
+import { useEffect, useState } from "react";
 
 export default function InformationPage() {
+  const [isUser, setIsUser] = useState<number[]>([]);
   const { isInfoData } = useFetchInfo();
-  console.log(isInfoData);
+  const { userProfile } = useFetchUser();
+
+  useEffect(() => {
+    const UserId = userProfile.map((user) => user.user_id);
+    setIsUser(UserId);
+  }, [userProfile]);
+
   return (
     <section className="px-5 py-5 flex flex-col gap-5">
       <Card className="w-full flex justify-center">
@@ -26,7 +35,11 @@ export default function InformationPage() {
           </CardTitle>
         </CardHeader>
       </Card>
-      <InformationApp Information={isInfoData} setUserInfo={() => {}} />
+      <InformationApp
+        Information={isInfoData}
+        setUserInfo={() => {}}
+        userId={isUser}
+      />
     </section>
   );
 }
