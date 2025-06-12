@@ -1,7 +1,7 @@
 import TextGenerator from "@/components/Genrator/TextGenerator";
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Bell } from "lucide-react";
+import { TypeOutline } from "lucide-react";
 
 export default function GeneratorPage() {
   return (
@@ -10,7 +10,7 @@ export default function GeneratorPage() {
         <CardHeader>
           <CardTitle className="flex-cols md:flex items-center text-2xl gap-5 justify-between">
             <div className="inline-flex gap-3 items-center">
-              <Bell height={45} width={45} />
+              <TypeOutline height={45} width={45} />
               <Separator
                 orientation="vertical"
                 className="data-[orientation=vertical]:h-8 data-[orientation=vertical]:w-[3px]"
