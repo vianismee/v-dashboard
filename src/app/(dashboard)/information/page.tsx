@@ -7,11 +7,17 @@ import { Separator } from "@/components/ui/separator";
 import { Bell } from "lucide-react";
 import { useFetchUser } from "@/api/useFetchUser";
 import { useEffect, useState } from "react";
+import AddInfoApp from "@/components/Informasi/add-info";
+import { Button } from "@/components/ui/button";
 
 export default function InformationPage() {
   const [isUser, setIsUser] = useState<number[]>([]);
   const { isInfoData } = useFetchInfo();
   const { userProfile } = useFetchUser();
+
+  const handleRefresh = () => {
+    window.location.reload();
+  };
 
   useEffect(() => {
     const UserId = userProfile.map((user) => user.user_id);
@@ -29,9 +35,12 @@ export default function InformationPage() {
                 orientation="vertical"
                 className="data-[orientation=vertical]:h-8 data-[orientation=vertical]:w-[3px]"
               />
-              <h1>Informasi</h1>
+              <h1>Notes</h1>
             </div>
-            <div className="inline-flex gap-3"></div>
+            <div className="inline-flex gap-3">
+              <AddInfoApp user={userProfile} />
+              <Button onClick={handleRefresh}>Refresh</Button>
+            </div>
           </CardTitle>
         </CardHeader>
       </Card>

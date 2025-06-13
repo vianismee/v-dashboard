@@ -43,8 +43,6 @@ const InformationApp: React.FC<InformationAppProps> = ({
     window.location.reload();
   };
 
-  console.log(userId);
-
   const sortedInfo = sortInfo(Information);
   return (
     <main className="w-full grid-rows-[1fr] auto-rows-[1fr] grid md:grid-cols-[repeat(3,1fr)] gap-2">
@@ -71,7 +69,7 @@ const InformationApp: React.FC<InformationAppProps> = ({
               </CardHeader>
               <Separator />
               <CardContent>
-                <div className="md:min-h-[200px] max-h-[200px] whitespace-pre-line line-clamp-10">
+                <div className="md:min-h-[190px] max-h-[190px] whitespace-pre-line line-clamp-8">
                   {info.desc}
                 </div>
               </CardContent>
@@ -87,8 +85,10 @@ const InformationApp: React.FC<InformationAppProps> = ({
             </SheetHeader>
             <Separator />
             <div className="p-5 w-full h-[80%]">
-              <Card className="h-full">
-                <CardContent>{info.desc}</CardContent>
+              <Card className="h-[600px] overflow-scroll md:h-[650px] md:max-h-[100%] md:overflow-scroll">
+                <CardContent className="whitespace-pre-line">
+                  {info.desc}
+                </CardContent>
               </Card>
             </div>
             <SheetFooter>
