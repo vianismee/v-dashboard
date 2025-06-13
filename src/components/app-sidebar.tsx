@@ -29,12 +29,14 @@ import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 
 import { Button } from "@/components/ui/button";
+import { useEffect, useState } from "react";
 import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Image from "next/image";
 
 // This is sample data.
 const data = {
@@ -99,13 +101,25 @@ const data = {
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const [isDark, setIsDark] = useState<boolean>(false);
   const { userProfile } = useFetchUser();
-  const { setTheme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
+
+  useEffect(() => {
+    setIsDark(resolvedTheme === "dark");
+  }, [resolvedTheme]);
+
+  console.log(isDark);
 
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader className="py-5 flex items-center justify-center">
-        <div>Kitoshindo</div>
+        <Image
+          src={`${isDark ? "/dark.svg" : "/light.svg"}`}
+          alt="logo"
+          height={130}
+          width={130}
+        />
       </SidebarHeader>
       <SidebarContent className="mt-6">
         <NavMain items={data.navMain} />

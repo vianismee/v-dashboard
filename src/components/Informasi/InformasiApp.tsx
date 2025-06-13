@@ -17,6 +17,7 @@ import { createClient } from "../../../supabase/client";
 interface InformationAppProps {
   Information: IInfo[];
   setUserInfo: React.Dispatch<React.SetStateAction<IInfo[]>>;
+  userId: number[];
 }
 
 const sortInfo = (info: IInfo[]) => {
@@ -26,8 +27,10 @@ const sortInfo = (info: IInfo[]) => {
   );
 };
 
-const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
-  // Handle delete Info
+const InformationApp: React.FC<InformationAppProps> = ({
+  Information,
+  userId,
+}) => {
   const handleDeleteInfo = async (infoId: number) => {
     const supabase = await createClient();
     const { error: InfoError } = await supabase
@@ -66,7 +69,7 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
               </CardHeader>
               <Separator />
               <CardContent>
-                <div className="md:min-h-[200px] max-h-[200px] whitespace-pre-line line-clamp-10">
+                <div className="md:min-h-[190px] max-h-[190px] whitespace-pre-line line-clamp-8">
                   {info.desc}
                 </div>
               </CardContent>
@@ -82,19 +85,25 @@ const InformationApp: React.FC<InformationAppProps> = ({ Information }) => {
             </SheetHeader>
             <Separator />
             <div className="p-5 w-full h-[80%]">
-              <Card className="h-full">
-                <CardContent>{info.desc}</CardContent>
+              <Card className="h-[600px] overflow-scroll md:h-[650px] md:max-h-[100%] md:overflow-scroll">
+                <CardContent className="whitespace-pre-line">
+                  {info.desc}
+                </CardContent>
               </Card>
             </div>
             <SheetFooter>
-              <Button>Edit</Button>
-              <Button
-                variant="outline"
-                className="cursor-pointer"
-                onClick={() => handleDeleteInfo(info.id)}
-              >
-                Delete
-              </Button>
+              {userId.includes(info.user_id) && (
+                <>
+                  <Button>Edit</Button>
+                  <Button
+                    variant="outline"
+                    className="cursor-pointer"
+                    onClick={() => handleDeleteInfo(info.id)}
+                  >
+                    Delete
+                  </Button>
+                </>
+              )}
             </SheetFooter>
           </SheetContent>
         </Sheet>
