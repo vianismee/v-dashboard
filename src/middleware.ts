@@ -7,7 +7,7 @@ export async function middleware(request: NextRequest) {
   const supabase = await createClient()
   const {data: {user}} = await supabase.auth.getUser()
 
-  if(user && request.nextUrl.pathname === '/job') {
+  if(user && request.nextUrl.pathname === '/dashboard') {
     const {data: userData, error} = await supabase.from('users').select('role').eq('id', user.id) .single()
     if (error) {
       console.error('Error fetching user role:', error.message)
@@ -16,15 +16,15 @@ export async function middleware(request: NextRequest) {
     const role = userData?.role
 
     if(role === 'Admin'){
-      return NextResponse.redirect(new URL('/job/admin', request.url))
+      return NextResponse.redirect(new URL('/dashboard/admin', request.url))
     }
 
     if(role === 'Designer'){
-      return NextResponse.redirect(new URL('/job/designer', request.url))
+      return NextResponse.redirect(new URL('/dashboard/designer', request.url))
     }
 
     if(role === 'Videographer'){
-      return NextResponse.redirect(new URL('/job/video', request.url))
+      return NextResponse.redirect(new URL('/dashboard/video', request.url))
     }
   }
  return response

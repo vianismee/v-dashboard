@@ -127,7 +127,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           width={130}
         />
       </SidebarHeader>
-      <SidebarContent className="mt-6">
+      <SidebarContent className="mt-6 px-4">
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarRail />
