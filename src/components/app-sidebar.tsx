@@ -12,6 +12,7 @@ import {
   Settings2,
   Trash2,
   TypeOutline,
+  BriefcaseBusiness,
 } from "lucide-react";
 
 import {
@@ -49,6 +50,11 @@ const data = {
       title: "Dashboard",
       url: "/dashboard",
       icon: Home,
+    },
+    {
+      title: "Job",
+      url: "/job",
+      icon: BriefcaseBusiness,
     },
     {
       title: "Text Generator",

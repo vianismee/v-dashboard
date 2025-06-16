@@ -1,8 +1,33 @@
-import { type NextRequest } from 'next/server'
+import { NextResponse, type NextRequest } from 'next/server'
 import { updateSession } from '../supabase/middleware'
+import { createClient } from '../supabase/server'
 
 export async function middleware(request: NextRequest) {
-  return await updateSession(request)
+  const response = await updateSession(request)
+  const supabase = await createClient()
+  const {data: {user}} = await supabase.auth.getUser()
+
+  if(user && request.nextUrl.pathname === '/job') {
+    const {data: userData, error} = await supabase.from('users').select('role').eq('id', user.id) .single()
+    if (error) {
+      console.error('Error fetching user role:', error.message)
+      return response
+    }
+    const role = userData?.role
+
+    if(role === 'Admin'){
+      return NextResponse.redirect(new URL('/job/admin', request.url))
+    }
+
+    if(role === 'Designer'){
+      return NextResponse.redirect(new URL('/job/designer', request.url))
+    }
+
+    if(role === 'Videographer'){
+      return NextResponse.redirect(new URL('/job/video', request.url))
+    }
+  }
+ return response
 }
 
 export const config = {
