@@ -109,8 +109,6 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
     setIsDark(resolvedTheme === "dark");
   }, [resolvedTheme]);
 
-  console.log(isDark);
-
   return (
     <Sidebar className="border-r-0" {...props}>
       <SidebarHeader className="py-5 flex items-center justify-center">

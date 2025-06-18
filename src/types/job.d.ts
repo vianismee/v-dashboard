@@ -15,10 +15,11 @@ export type IBrnad = {
 }
 
 export type IProduct = {
-    product_id: number
     name: string
+    type: sting
     size: number
     packaging: string
-    label_raw: string
-    innerbox?: string
+    innerbox: string
+    spec: string
+    catatan: string
 }
