@@ -40,6 +40,8 @@ export default function InputMaklonApp() {
     { ...empetyProduct },
   ]);
 
+  console.log(productList);
+
   const { userProfile } = useFetchUser();
 
   useEffect(() => {
