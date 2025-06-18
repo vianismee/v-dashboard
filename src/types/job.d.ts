@@ -1,23 +1,18 @@
 
 
 export type IJob = {
-    job_id: number
-    user: string
-    status: "Brief" | "Artwork" | "Approval 1" | "Trial" | "Aproval Customer" | "Revisi" 
-    brand: IBrnad []
+    type: string
 }
 
-export type IBrnad = {
-    brand_id: number
+export type IBrand = {
     name: string
-    type: string
-    product: IProduct []
+    jenis: string
+    alamat: string
 }
 
 export type IProduct = {
     name: string
     type: sting
-    size: number
     packaging: string
     innerbox: string
     spec: string

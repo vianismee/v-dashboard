@@ -15,7 +15,7 @@ const InputPages = () => {
             <ChevronLeft />
           </Button>
         </Link>
-        <h1 className="font-bold">Input Maklon Baru</h1>
+        <h1 className="font-bold">Input Permintaan</h1>
       </section>
       <InputMaklonApp />
     </main>

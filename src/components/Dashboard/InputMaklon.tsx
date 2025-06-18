@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Card, CardContent } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../ui/card";
 import { Input } from "../ui/input";
 import {
   Select,
@@ -13,15 +13,25 @@ import {
 import { Separator } from "../ui/separator";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "../ui/textarea";
-import { IProduct } from "@/types/job";
+import { IBrand, IJob, IProduct } from "@/types/job";
 import { Button } from "../ui/button";
 import { PlusSquare, Trash } from "lucide-react";
 import { useFetchUser } from "@/api/useFetchUser";
+import { createClient } from "../../../supabase/client";
+
+const empetyJob: IJob = {
+  type: "Design Baru",
+};
+
+const empetyBrand: IBrand = {
+  name: "",
+  jenis: "Perorangan",
+  alamat: "",
+};
 
 const empetyProduct: IProduct = {
   name: "",
   type: "",
-  size: 0,
   packaging: "",
   innerbox: "",
   spec: "",
@@ -32,15 +42,15 @@ export default function InputMaklonApp() {
   const typeBrand = ["Badan Usaha", "Perorangan"];
   const typeProduct = ["Minimalis", "Reguler", "Putus"];
   const typeInnerbox = ["Full Design", "Sticker"];
+  const typeJob = ["Design Baru", "Rebranding"];
 
-  const [isUserId, setIsUserId] = useState<number[]>([]);
   const [isTypeBrand, setIsTypeBrand] = useState("Perorangan");
   const [alamat, setAlamat] = useState<boolean>(false);
+  const [isJob, setIsJob] = useState<IJob>({ ...empetyJob });
+  const [barndList, setBrandList] = useState<IBrand>({ ...empetyBrand });
   const [productList, setProductList] = useState<IProduct[]>([
     { ...empetyProduct },
   ]);
-
-  console.log(productList);
 
   const { userProfile } = useFetchUser();
 
@@ -48,13 +58,26 @@ export default function InputMaklonApp() {
     setAlamat(isTypeBrand === "Badan Usaha");
   }, [isTypeBrand]);
 
-  useEffect(() => {
-    const UserID = userProfile.map((user) => user.user_id);
-    setIsUserId(UserID);
-  }, [userProfile]);
+  const handleJob = (field: keyof IJob, value: string) => {
+    setIsJob((prev) => ({ ...prev, [field]: value }));
+  };
+
+  const handleBrandList = (field: keyof IBrand, value: string) => {
+    setBrandList((prev) => ({ ...prev, [field]: value }));
+  };
 
   const handleAddProduct = () => {
     setProductList([...productList, { ...empetyProduct }]);
+  };
+
+  const handleUpdateProduct = (
+    index: number,
+    field: keyof IProduct,
+    value: string
+  ) => {
+    const newProduct = [...productList];
+    newProduct[index] = { ...newProduct[index], [field]: value };
+    setProductList(newProduct);
   };
 
   const handleRemoveProduct = (index: number) => {
@@ -63,18 +86,80 @@ export default function InputMaklonApp() {
     }
   };
 
+  const handleSumbitProduct = async () => {
+    const supabase = createClient();
+    const userId = userProfile?.[0].user_id;
+
+    const { data: jobData, error: jobError } = await supabase
+      .from("job")
+      .insert([{ ...isJob, user_id: userId }])
+      .select("job_id");
+    if (jobError) {
+      console.error("Error inserting job:", jobError);
+      alert(`Gagal menyimpan data permintaan: ${jobError.message}`);
+      return;
+    }
+
+    const jobId = jobData?.[0]?.job_id;
+    if (!jobId) {
+      console.error(
+        "No job ID returned after insertion. Inserted data:",
+        jobData
+      );
+      alert(
+        "Gagal mendapatkan ID permintaan. Tidak dapat menyimpan brand/produk."
+      );
+      return;
+    }
+    console.log("Job inserted successfully. Job ID:", jobId);
+    const { data: insertedBrand, error: brandError } = await supabase
+      .from("brand")
+      .insert([{ ...barndList, job_id: jobId }])
+      .select("*");
+
+    if (brandError) {
+      console.error("Error inserting brand:", brandError.message);
+      alert("Gagal menyimpan data brand: " + brandError.message);
+      return;
+    }
+
+    const brandId = insertedBrand?.[0]?.brand_id;
+
+    if (!brandId) {
+      console.error("No brand ID returned after insertion.");
+      alert("Gagal mendapatkan ID brand. Tidak dapat menyimpan produk.");
+      return;
+    }
+    console.log("Brand inserted successfully with ID:", brandId);
+
+    // 2. Tambahkan brand_id ke setiap produk dalam productList
+    const productsToInsert = productList.map((product) => ({
+      ...product,
+      brand_id: brandId,
+    }));
+
+    const { data: productData, error: productError } = await supabase
+      .from("product")
+      .insert(productsToInsert);
+    if (productError) {
+      console.error("Error inserting products:", productError.message);
+      alert("Gagal menyimpan data produk: " + productError?.message);
+    } else {
+      console.log("Products inserted successfully:", productData);
+      alert("Data produk berhasil disimpan!");
+      setProductList([{ ...empetyProduct }]);
+    }
+  };
+
   const handleKeyDown = (event: KeyboardEvent) => {
-    // Memeriksa jika 'Ctrl' (atau 'Meta' untuk Mac) dan 'Enter' ditekan
     if ((event.ctrlKey || event.metaKey) && event.key === "Enter") {
-      event.preventDefault(); // Mencegah perilaku default (misalnya, membuat baris baru di textarea)
-      handleAddProduct(); // Panggil fungsi untuk menambahkan produk
+      event.preventDefault();
+      handleAddProduct();
     }
   };
 
   useEffect(() => {
     document.addEventListener("keydown", handleKeyDown);
-
-    // Fungsi cleanup: hapus event listener saat komponen di-unmount
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
@@ -86,15 +171,46 @@ export default function InputMaklonApp() {
         <CardContent>
           <div className="flex flex-col gap-3">
             <div className="flex flex-col gap-3">
-              <h1 className="text-2xl font-bold">Brand</h1>
+              <h1 className="text-2xl font-bold">PERMINTAAN BARU</h1>
+              <div className="flex flex-col gap-2">
+                <Label>Jenis Permintaan</Label>
+                <Select
+                  onValueChange={(value) => {
+                    setIsTypeBrand(value);
+                    handleJob("type", value);
+                  }}
+                >
+                  <SelectTrigger className="w-full">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectGroup>
+                      <SelectLabel>Type Brand</SelectLabel>
+                      {typeJob.map((type, index) => (
+                        <SelectItem key={index} value={type}>
+                          {type}
+                        </SelectItem>
+                      ))}
+                    </SelectGroup>
+                  </SelectContent>
+                </Select>
+              </div>
               <div className="flex gap-5 w-full">
                 <div className="flex flex-col gap-2">
                   <Label>Nama Brand</Label>
-                  <Input placeholder="example" />
+                  <Input
+                    placeholder="example"
+                    onChange={(e) => handleBrandList("name", e.target.value)}
+                  />
                 </div>
                 <div className="flex flex-col gap-2">
                   <Label>Type Brand</Label>
-                  <Select onValueChange={(value) => setIsTypeBrand(value)}>
+                  <Select
+                    onValueChange={(value) => {
+                      setIsTypeBrand(value);
+                      handleBrandList("jenis", value);
+                    }}
+                  >
                     <SelectTrigger className="md:w-[200px]">
                       <SelectValue placeholder={isTypeBrand} />
                     </SelectTrigger>
@@ -114,7 +230,10 @@ export default function InputMaklonApp() {
               {alamat && (
                 <div className="flex flex-col gap-2">
                   <Label>Alamat</Label>
-                  <Textarea placeholder="Jl. Example Lorem (Optional)" />
+                  <Textarea
+                    placeholder="Jl. Example Lorem (Optional)"
+                    onChange={(e) => handleBrandList("alamat", e.target.value)}
+                  />
                 </div>
               )}
             </div>
@@ -125,19 +244,27 @@ export default function InputMaklonApp() {
                 <CardContent className="flex flex-col gap-3">
                   <div className="flex flex-col gap-2">
                     <Label>Nama Produk</Label>
-                    <Input />
+                    <Input
+                      onChange={(e) =>
+                        handleUpdateProduct(index, "name", e.target.value)
+                      }
+                    />
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Type Product</Label>
-                    <Select>
+                    <Select
+                      onValueChange={(value) =>
+                        handleUpdateProduct(index, "type", value)
+                      }
+                    >
                       <SelectTrigger className="md:w-full">
                         <SelectValue />
                       </SelectTrigger>
                       <SelectContent>
                         <SelectGroup>
                           <SelectLabel>Type Product</SelectLabel>
-                          {typeProduct.map((type, index) => (
-                            <SelectItem key={index} value={type}>
+                          {typeProduct.map((type, i) => (
+                            <SelectItem key={i} value={type}>
                               {type}
                             </SelectItem>
                           ))}
@@ -147,11 +274,19 @@ export default function InputMaklonApp() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Kemasan</Label>
-                    <Input />
+                    <Input
+                      onChange={(e) =>
+                        handleUpdateProduct(index, "packaging", e.target.value)
+                      }
+                    />
                   </div>
                   <Label>Innerbox</Label>
                   <div className="inline-flex gap-4 items-center">
-                    <Select>
+                    <Select
+                      onValueChange={(value) =>
+                        handleUpdateProduct(index, "innerbox", value)
+                      }
+                    >
                       <SelectTrigger className="w-full">
                         <SelectValue placeholder="None" />
                       </SelectTrigger>
@@ -169,17 +304,23 @@ export default function InputMaklonApp() {
                   </div>
                   <div className="flex flex-col gap-2">
                     <Label>Bahan</Label>
-                    <Input />
+                    <Input
+                      onChange={(e) =>
+                        handleUpdateProduct(index, "spec", e.target.value)
+                      }
+                    />
                   </div>
                   <div className=" space-x-3">
-                    <Button
-                      size="icon"
-                      variant="outline"
-                      onClick={() => handleRemoveProduct(index)}
-                      className="cursor-pointer"
-                    >
-                      <Trash />
-                    </Button>
+                    {productList.length > 1 && (
+                      <Button
+                        size="icon"
+                        variant="outline"
+                        onClick={() => handleRemoveProduct(index)}
+                        className="cursor-pointer"
+                      >
+                        <Trash />
+                      </Button>
+                    )}
                     <Button
                       size="icon"
                       onClick={handleAddProduct}
@@ -193,6 +334,9 @@ export default function InputMaklonApp() {
             ))}
           </div>
         </CardContent>
+        <CardFooter>
+          <Button onClick={handleSumbitProduct}>Submit</Button>
+        </CardFooter>
       </Card>
     </div>
   );

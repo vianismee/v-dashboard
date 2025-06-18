@@ -48,7 +48,6 @@ const generatedText = (
     .join("\n\n");
   const end =
     "\n------------------------------------------------------------- \n> _Note: Foto & Video merupakan hasil 3D Mockup bukan hasil asli_";
-  console.log(header + productList);
   return header + productList + end;
 };
 
@@ -87,8 +86,7 @@ export default function BadanUsaha() {
     setSelectedMinimalis((prev) => {
       const updated = prev.includes(value)
         ? prev.filter((item) => item !== value)
-        : [...prev, value];
-      console.log(updated); // Periksa nilai updated
+        : [...prev, value]; // Periksa nilai updated
       return updated;
     });
   };

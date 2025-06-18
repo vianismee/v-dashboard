@@ -47,7 +47,6 @@ const generatedText = (
     .join("\n\n");
   const end =
     "\n------------------------------------------------------------- \n> _Note: Foto & Video merupakan hasil 3D Mockup bukan hasil asli_";
-  console.log(header + productList);
   return header + productList + end;
 };
 
@@ -64,6 +63,8 @@ export default function Perorangan() {
   const handleAddProduct = () => {
     setListProduk([...listProduk, { ...empetyProduct }]);
   };
+
+  console.log(listProduk);
 
   const handleUpdateProduct = (
     index: number,
