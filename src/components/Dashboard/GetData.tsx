@@ -1,8 +1,9 @@
-import React from "react";
+import { useState } from "react";
 import { createClient } from "../../../supabase/client";
 import { Button } from "../ui/button";
 
-const ReloadData = () => {
+export default function GetData() {
+  const [fetchedData, setFetchedData] = useState(null);
   const getFetchData = async () => {
     const supabase = createClient();
     const { data, error } = await supabase
@@ -14,14 +15,17 @@ const ReloadData = () => {
       console.log(error);
     }
     console.log(data);
+    setFetchedData(data);
   };
-
   return (
     <div>
-      Hello
-      <Button onClick={getFetchData}>Reload Data</Button>
+      <Button onClick={getFetchData}>Refresh Data</Button>
+      <pre>
+        {/* Mengecek jika data ada, kemudian menampilkan JSON string */}
+        {fetchedData
+          ? JSON.stringify(fetchedData, null, 2)
+          : "No data available."}
+      </pre>
     </div>
   );
-};
-
-export default ReloadData;
+}

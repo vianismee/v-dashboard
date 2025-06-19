@@ -1,10 +1,12 @@
-import TableData from "@/components/Dashboard/TableData";
+"use client";
+
+import GetData from "@/components/Dashboard/GetData";
 import React from "react";
 
 const DesignerJobPage = () => {
   return (
     <div>
-      <TableData />
+      <GetData />
     </div>
   );
 };

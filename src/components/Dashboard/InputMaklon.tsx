@@ -18,9 +18,11 @@ import { Button } from "../ui/button";
 import { PlusSquare, Trash } from "lucide-react";
 import { useFetchUser } from "@/api/useFetchUser";
 import { createClient } from "../../../supabase/client";
+import { toast } from "sonner";
 
 const empetyJob: IJob = {
   type: "Design Baru",
+  tracking: "Brief",
 };
 
 const empetyBrand: IBrand = {
@@ -118,16 +120,23 @@ export default function InputMaklonApp() {
       .select("*");
 
     if (brandError) {
-      console.error("Error inserting brand:", brandError.message);
-      alert("Gagal menyimpan data brand: " + brandError.message);
+      toast(`Gagal menambah produk`, {
+        description: `Error saat menambah brand  ${brandError?.message}`,
+        position: "top-center",
+        duration: 6000,
+      });
+
       return;
     }
 
     const brandId = insertedBrand?.[0]?.brand_id;
 
     if (!brandId) {
-      console.error("No brand ID returned after insertion.");
-      alert("Gagal mendapatkan ID brand. Tidak dapat menyimpan produk.");
+      toast("Gagal mendapatkan ID Brand", {
+        description: `Gagal mendapatkan ID brand. Tidak dapat menyimpan produk.  `,
+        position: "top-center",
+        duration: 6000,
+      });
       return;
     }
     console.log("Brand inserted successfully with ID:", brandId);
@@ -138,15 +147,21 @@ export default function InputMaklonApp() {
       brand_id: brandId,
     }));
 
-    const { data: productData, error: productError } = await supabase
+    const { error: productError } = await supabase
       .from("product")
       .insert(productsToInsert);
     if (productError) {
-      console.error("Error inserting products:", productError.message);
-      alert("Gagal menyimpan data produk: " + productError?.message);
+      toast(`Gagal menambah produk`, {
+        description: `Error saat menambah produk  ${productError?.message}`,
+        position: "top-center",
+        duration: 6000,
+      });
     } else {
-      console.log("Products inserted successfully:", productData);
-      alert("Data produk berhasil disimpan!");
+      toast(`Brand ${barndList.name} suksess di input dengan ID${jobId}`, {
+        description: `Brand ${barndList.name} tipe ${barndList.jenis} telah di input, berisi ${productList.length} produk`,
+        position: "top-right",
+        duration: 6000,
+      });
       setProductList([{ ...empetyProduct }]);
     }
   };

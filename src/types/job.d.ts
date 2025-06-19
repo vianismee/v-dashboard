@@ -2,6 +2,7 @@
 
 export type IJob = {
     type: string
+    tracking: string
 }
 
 export type IBrand = {

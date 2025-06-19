@@ -8,6 +8,7 @@ import {
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "DESIGN DASHBOARD",
@@ -37,6 +38,7 @@ export default function RootLayout({
           <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
             <main className="bg-primery-foreground min-h-[100vh] flex-1 rounded-xl md:min-h-min">
               {children}
+              <Toaster />
             </main>
           </div>
         </SidebarInset>

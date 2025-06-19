@@ -1,0 +1,33 @@
+[
+    {
+    "job_id": 1,
+    "user_name": "Vian",
+    "type": "Design Baru",
+    "tracking": "Brief",
+    "brand": [
+        {
+            "brand_id": 1,
+            "job_id": 1,
+            "name": "Shineskin",
+            "jenis": "Badan Usaha",
+            "product": [
+                {
+                    "product_id": 1,
+                    "brand_id": 1,
+                    "name": "Brightening Night Cream"
+                },
+                {
+                    "product_id": 2,
+                    "brand_id": 1,
+                    "name": "Brightening Day Cream"
+                },
+                {
+                    "product_id": 3,
+                    "brand_id": 1,
+                    "name": "Facial Wash"
+                }
+            ]
+        }
+    ]
+}
+]
